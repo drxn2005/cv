@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional CV Builder | صانع السيرة الذاتية الاحترافي</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/form.css">
+    <link rel="stylesheet" href="css/cv-preview.css">
+
+    <!-- External Libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar / Controls -->
+        <aside class="editor-side">
+            <header class="editor-header">
+                <h1>صانع السيرة الذاتية</h1>
+                <p>صمم سيرتك الذاتية باحترافية وسهولة</p>
+            </header>
+
+            <nav class="form-tabs">
+                <button class="tab-btn active" data-tab="personal"><i data-lucide="user"></i> الشخصية</button>
+                <button class="tab-btn" data-tab="contact"><i data-lucide="mail"></i> التواصل</button>
+                <button class="tab-btn" data-tab="military"><i data-lucide="shield-check"></i> العسكرية</button>
+                <button class="tab-btn" data-tab="education"><i data-lucide="graduation-cap"></i> التعليم</button>
+                <button class="tab-btn" data-tab="experience"><i data-lucide="briefcase"></i> الخبرة</button>
+                <button class="tab-btn" data-tab="skills"><i data-lucide="code"></i> المهارات</button>
+                <button class="tab-btn" data-tab="languages"><i data-lucide="languages"></i> اللغات</button>
+                <button class="tab-btn" data-tab="extra"><i data-lucide="sparkles"></i> خبرات حياتية</button>
+                <button class="tab-btn" data-tab="projects"><i data-lucide="folder-kanban"></i> المشاريع</button>
+            </nav>
+
+            <div class="form-content">
+                <!-- Personal Info Tab -->
+                <section id="personal" class="tab-pane active">
+                    <div class="photo-upload-container">
+                        <label for="photo-input" class="photo-label" id="photo-dropzone">
+                            <div class="photo-preview-box">
+                                <img id="photo-preview" src="assets/default-avatar.svg" alt="Avatar">
+                                <div class="overlay"><i data-lucide="camera"></i></div>
+                            </div>
+                            <span>اضغط لرفع الصورة</span>
+                            <input type="file" id="photo-input" accept="image/*" hidden>
+                        </label>
+                    </div>
+                    <div class="input-group">
+                        <label>الاسم الكامل</label>
+                        <input type="text" id="full-name" placeholder="مثال: محمد أحمد">
+                    </div>
+                    <div class="input-group">
+                        <label>المسمى الوظيفي</label>
+                        <input type="text" id="job-title" placeholder="مثال: مطور برمجيات">
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>تاريخ الميلاد</label>
+                            <input type="date" id="birth-date">
+                        </div>
+                        <div class="input-group">
+                            <label>العمر</label>
+                            <input type="number" id="age" placeholder="مثال: 25">
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>الحالة الاجتماعية</label>
+                        <select id="social-status">
+                            <option value="">اختر...</option>
+                            <option value="single">أعزب</option>
+                            <option value="married">متزوج</option>
+                            <option value="divorced">مطلق</option>
+                            <option value="widowed">أرمل</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>نبذة تعريفية</label>
+                        <textarea id="summary" placeholder="اكتب نبذة مختصرة عنك..."></textarea>
+                    </div>
+                </section>
+
+                <!-- Contact Tab -->
+                <section id="contact" class="tab-pane">
+                    <div class="input-group">
+                        <label>البريد الإلكتروني</label>
+                        <input type="email" id="email" placeholder="email@example.com">
+                    </div>
+                    <div class="input-group">
+                        <label>رقم الهاتف</label>
+                        <input type="tel" id="phone" placeholder="0123456789">
+                    </div>
+                    <div class="input-group">
+                        <label>الموقع / العنوان</label>
+                        <input type="text" id="location" placeholder="القاهرة، مصر">
+                    </div>
+                    <div class="input-group">
+                        <label>رابط LinkedIn (اختياري)</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/...">
+                    </div>
+                </section>
+
+                <!-- Military Tab -->
+                <section id="military" class="tab-pane">
+                    <div class="input-group">
+                        <label>الموقف من التجنيد</label>
+                        <select id="military-status">
+                            <option value="">اختر...</option>
+                            <option value="exempted">إعفاء نهائي</option>
+                            <option value="postponed">تأجيل</option>
+                            <option value="completed">أدى الخدمة</option>
+                            <option value="not-required">غير مطلوب</option>
+                        </select>
+                    </div>
+                </section>
+
+                <section id="education" class="tab-pane">
+                    <div id="education-list" class="dynamic-list"></div>
+                    <button class="btn btn-secondary add-item" data-type="education">
+                        <i data-lucide="plus"></i> إضافة تعليم
+                    </button>
+                </section>
+
+                <section id="experience" class="tab-pane">
+                    <div id="experience-list" class="dynamic-list"></div>
+                    <button class="btn btn-secondary add-item" data-type="experience">
+                        <i data-lucide="plus"></i> إضافة خبرة
+                    </button>
+                </section>
+
+                <section id="skills" class="tab-pane">
+                    <div id="skills-list" class="dynamic-list"></div>
+                    <button class="btn btn-secondary add-item" data-type="skills">
+                        <i data-lucide="plus"></i> إضافة مهارة
+                    </button>
+                </section>
+
+                <section id="languages" class="tab-pane">
+                    <div id="languages-list" class="dynamic-list"></div>
+                    <button class="btn btn-secondary add-item" data-type="languages">
+                        <i data-lucide="plus"></i> إضافة لغة
+                    </button>
+                </section>
+
+                <section id="extra" class="tab-pane">
+                    <div class="input-group">
+                        <label>الخبرات الحياتية / مهارات أخرى</label>
+                        <textarea id="life-exp" placeholder="تحدث عن خبراتك الحياتية أو إنجازاتك الشخصية..."></textarea>
+                    </div>
+                </section>
+
+                <section id="projects" class="tab-pane">
+                    <div id="projects-list" class="dynamic-list"></div>
+                    <button class="btn btn-secondary add-item" data-type="projects">
+                        <i data-lucide="plus"></i> إضافة مشروع
+                    </button>
+                </section>
+            </div>
+        </aside>
+
+        <!-- Preview Side -->
+        <main class="preview-side">
+            <div class="preview-toolbar">
+                <div class="toolbar-group">
+                    <label>القالب:</label>
+                    <select id="template-select" class="select-input">
+                        <option value="modern">عصري (Modern)</option>
+                        <option value="classic">كلاسيكي (Classic)</option>
+                        <option value="creative">إبداعي (Creative)</option>
+                    </select>
+                </div>
+                <div class="toolbar-group">
+                    <div class="header-center">
+                        <div id="theme-picker" class="theme-picker"></div>
+                        <div class="custom-color-btn" title="لون مخصص">
+                            <i data-lucide="palette"></i>
+                            <input type="color" id="custom-theme-color" value="#1a73e8">
+                        </div>
+                        <span class="toolbar-label">الألوان:</span>
+                    </div>
+                </div>
+                <div class="toolbar-group actions">
+                    <button id="draw-btn" title="الرسم على الـ CV"><i data-lucide="pen-tool"></i></button>
+                    <button id="export-pdf" class="btn btn-primary"><i data-lucide="file-text"></i> PDF</button>
+                    <button id="export-jpg" class="btn btn-success"><i data-lucide="image"></i> JPG</button>
+                </div>
+            </div>
+
+            <div class="cv-paper-container">
+                <div id="cv-preview" class="cv-paper modern-template">
+                    <!-- Template content injected by JS -->
+                </div>
+                <!-- Drawing Canvas Overlay -->
+                <canvas id="drawing-canvas" class="drawing-canvas" hidden></canvas>
+
+                <div id="canvas-tools" class="canvas-tools" hidden>
+                    <div class="tool-item">
+                        <label>لون القلم:</label>
+                        <input type="color" id="draw-color" value="#ff0000" title="اختر لون القلم للرسم أو التوقيع">
+                    </div>
+                    <div class="tool-item">
+                        <label>الحجم:</label>
+                        <input type="range" id="draw-size" min="1" max="10" value="3">
+                    </div>
+                    <div class="tool-actions">
+                        <button id="undo-draw" title="تراجع"><i data-lucide="undo"></i> تراجع</button>
+                        <button id="clear-draw" title="مسح الكل" class="btn-danger"><i data-lucide="trash-2"></i>
+                            مسح</button>
+                        <button id="close-draw" title="إغلاق"><i data-lucide="x"></i></button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

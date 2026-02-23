@@ -1,0 +1,79 @@
+:root {
+    /* Fonts */
+    --font-main: 'Cairo', sans-serif;
+    --font-alt: 'Inter', sans-serif;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Transitions */
+    --transition: all 0.3s ease;
+
+    /* Shadow */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+
+    /* Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-full: 9999px;
+
+    /* UI Colors (Defaults - Office Blue) */
+    --primary: #1a73e8;
+    --primary-dark: #1557b0;
+    --primary-light: #e8f0fe;
+    --secondary: #5f6368;
+    --bg-app: #e0e0e0;
+    --bg-white: #ffffff;
+    --text-main: #202124;
+    --text-muted: #5f6368;
+    --border: #dadce0;
+    --accent: #fbbc04;
+}
+
+/* Theme Definitions */
+[data-theme="blue"] {
+    --primary: #1a73e8;
+    --primary-dark: #1557b0;
+    --primary-light: #f1f6ff;
+}
+
+[data-theme="gray"] {
+    --primary: #37474f;
+    --primary-dark: #263238;
+    --primary-light: #f5f7f8;
+}
+
+[data-theme="coral"] {
+    --primary: #d32f2f;
+    --primary-dark: #b71c1c;
+    --primary-light: #fff5f5;
+}
+
+[data-theme="green"] {
+    --primary: #2e7d32;
+    --primary-dark: #1b5e20;
+    --primary-light: #f1f8f1;
+}
+
+[data-theme="purple"] {
+    --primary: #6a1b9a;
+    --primary-dark: #4a148c;
+    --primary-light: #f8f1fb;
+}
+
+[data-theme="dark"] {
+    --primary: #8ab4f8;
+    --primary-dark: #aecbfa;
+    --primary-light: #202124;
+    --bg-app: #121212;
+    --bg-white: #1e1e1e;
+    --text-main: #e8eaed;
+    --text-muted: #9aa0a6;
+    --border: #3c4043;
+}
