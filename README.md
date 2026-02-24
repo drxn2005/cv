@@ -249,5 +249,5 @@ main.js
 **صنع بـ ❤️ للمجتمع العربي**
 
 ⭐ إذا أعجبك المشروع لا تنسى ترك نجمة ⭐
-
+Mohamed Montaser  Discord :  https://discord.gg/jmyx9RgnbP
 </div>
