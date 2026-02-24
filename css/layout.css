@@ -155,8 +155,6 @@ body {
     align-items: center;
     background-color: #e0e0e0;
     position: relative;
-    /* gap: 30px; */
-    /* Space between pages - moved to #cv-preview */
 }
 
 .cv-paper {
@@ -164,10 +162,8 @@ body {
     background-color: white;
     width: 210mm;
     height: 297mm;
-    /* Fixed height for A4 */
     box-shadow: var(--shadow-lg);
     padding: 20mm;
-    /* Standard A4 margins */
     margin: 0 auto 40px auto !important;
     position: relative;
     overflow: hidden;
@@ -198,25 +194,121 @@ body {
     z-index: 100;
 }
 
-/* Responsive */
+/* Mobile Nav Controls */
+.mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    height: 60px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.mobile-nav-btn {
+    border: none;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+    flex: 1;
+    padding: 8px;
+    transition: var(--transition);
+}
+
+.mobile-nav-btn.active {
+    color: var(--primary);
+}
+
+.mobile-nav-btn i {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive Scaling */
 @media (max-width: 1024px) {
     .app-container {
-        grid-template-columns: 380px 1fr;
+        grid-template-columns: 350px 1fr;
     }
 }
 
 @media (max-width: 768px) {
+    .mobile-nav {
+        display: flex;
+    }
+
     .app-container {
-        grid-template-columns: 1fr;
+        display: block !important;
+        height: calc(100vh - 60px) !important;
+        position: relative;
+        overflow: hidden;
     }
 
-    .editor-side {
-        height: auto;
-        min-height: 100vh;
-    }
-
+    .editor-side,
     .preview-side {
-        display: none;
-        /* In actual JS we'll toggle this */
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: transform 0.3s ease, visibility 0.3s;
+        background: var(--bg-app);
+    }
+
+    /* Initial state or Editor visible */
+    .app-container.show-editor .editor-side {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .app-container.show-editor .preview-side {
+        transform: translateX(-100%);
+        visibility: hidden;
+    }
+
+    /* Preview visible */
+    .app-container.show-preview .editor-side {
+        transform: translateX(100%);
+        visibility: hidden;
+    }
+
+    .app-container.show-preview .preview-side {
+        transform: translateX(0);
+        visibility: visible;
+        display: flex !important;
+    }
+
+    .preview-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .toolbar-group {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Essential Scaling for Paper on Mobile */
+    #cv-preview {
+        width: 210mm;
+        transform-origin: top center;
+        transform: scale(0.4);
+    }
+
+    .cv-paper-container {
+        padding: 10px;
+        min-height: 100%;
+        justify-content: flex-start;
+        overflow-x: hidden;
     }
 }

@@ -829,6 +829,31 @@ class App {
             form.addItem('education');
         }
 
+        // Add default mobile state class
+        document.querySelector('.app-container').classList.add('show-editor');
+
+        // Mobile View Toggling
+        const editBtn = document.getElementById('view-edit-btn');
+        const previewBtn = document.getElementById('view-preview-btn');
+        const appContainer = document.querySelector('.app-container');
+
+        editBtn?.addEventListener('click', () => {
+            appContainer.classList.remove('show-preview');
+            appContainer.classList.add('show-editor');
+            editBtn.classList.add('active');
+            previewBtn.classList.remove('active');
+        });
+
+        previewBtn?.addEventListener('click', () => {
+            appContainer.classList.remove('show-editor');
+            appContainer.classList.add('show-preview');
+            previewBtn.classList.add('active');
+            editBtn.classList.remove('active');
+            this.updateResponsiveScaling();
+        });
+
+        window.addEventListener('resize', () => this.updateResponsiveScaling());
+
         // Tab Switching Logic
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -911,6 +936,7 @@ class App {
             });
 
             lucide.createIcons();
+            this.updateResponsiveScaling();
         }
         // Save state
         const customColor = themes.current === 'custom' ? document.getElementById('custom-theme-color')?.value : undefined;
@@ -921,6 +947,32 @@ class App {
             customColor: customColor,
             typography: this.typography
         });
+    }
+
+    updateResponsiveScaling() {
+        if (window.innerWidth > 768) {
+            const preview = document.getElementById('cv-preview');
+            const paperContainer = document.querySelector('.cv-paper-container');
+            if (preview) preview.style.transform = '';
+            if (paperContainer) paperContainer.style.height = '';
+            return;
+        }
+
+        const preview = document.getElementById('cv-preview');
+        const container = document.querySelector('.cv-paper-container');
+        if (!preview || !container) return;
+
+        const containerWidth = container.clientWidth - 40; // padding
+        const paperWidthPixels = 210 * 3.7795275591; // 210mm to pixels
+        const scale = containerWidth / paperWidthPixels;
+
+        preview.style.transform = `scale(${scale})`;
+
+        // Adjust container height to fit the scaled pages
+        const papers = preview.querySelectorAll('.cv-paper');
+        const scaledPageHeight = (297 * 3.7795275591 + 40) * scale; // mm to px + margin
+        const totalHeight = scaledPageHeight * papers.length;
+        container.style.height = `${totalHeight + 100}px`;
     }
     reset() {
         if (confirm('هل أنت متأكد من رغبتك في حذف جميع البيانات والبدء من جديد؟')) {
