@@ -1,0 +1,222 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-current);
+    background-color: var(--bg-app);
+    color: var(--text-main);
+    line-height: 1.6;
+    font-size: var(--font-size-base);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    height: 100vh;
+}
+
+/* Sidebar / Editor */
+.editor-side {
+    background-color: var(--bg-white);
+    border-left: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+}
+
+.editor-header {
+    padding: var(--space-lg);
+    border-bottom: 1px solid var(--border);
+}
+
+.editor-header h1 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: var(--space-xs);
+}
+
+.editor-header p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.form-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--border);
+    scrollbar-width: thin;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.form-tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.form-tabs::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 10px;
+}
+
+.tab-btn {
+    padding: var(--space-md) var(--space-lg);
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.tab-btn i {
+    width: 18px;
+    height: 18px;
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    background-color: var(--primary-light);
+}
+
+.form-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-lg);
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Preview Side */
+.preview-side {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.preview-toolbar {
+    padding: var(--space-md) var(--space-lg);
+    background-color: var(--bg-white);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+}
+
+#cv-preview {
+    display: block !important;
+    width: 210mm;
+    margin: 0 auto;
+    padding-bottom: 50px;
+}
+
+.cv-paper-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #e0e0e0;
+    position: relative;
+    /* gap: 30px; */
+    /* Space between pages - moved to #cv-preview */
+}
+
+.cv-paper {
+    display: block !important;
+    background-color: white;
+    width: 210mm;
+    height: 297mm;
+    /* Fixed height for A4 */
+    box-shadow: var(--shadow-lg);
+    padding: 20mm;
+    /* Standard A4 margins */
+    margin: 0 auto 40px auto !important;
+    position: relative;
+    overflow: hidden;
+    transform-origin: top center;
+    transition: var(--transition);
+}
+
+/* Pagination Decorators */
+.cv-mini-header {
+    font-family: var(--font-primary);
+    border-bottom: 2px solid var(--primary-color);
+    margin-bottom: 15mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 5px;
+}
+
+.cv-page-number {
+    position: absolute;
+    bottom: 5mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-main);
+    z-index: 100;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .app-container {
+        grid-template-columns: 380px 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-container {
+        grid-template-columns: 1fr;
+    }
+
+    .editor-side {
+        height: auto;
+        min-height: 100vh;
+    }
+
+    .preview-side {
+        display: none;
+        /* In actual JS we'll toggle this */
+    }
+}
