@@ -505,7 +505,6 @@ const drawing = {
         this.isDrawing = false;
 
         document.getElementById('draw-btn').addEventListener('click', () => this.toggle());
-        document.getElementById('close-draw').addEventListener('click', () => this.hide());
         document.getElementById('clear-draw').addEventListener('click', () => this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height));
 
         this.canvas.addEventListener('mousedown', (e) => this.start(e));
@@ -520,8 +519,19 @@ const drawing = {
         this.canvas.height = rect.height;
     },
     toggle() { if (this.canvas.hidden) this.show(); else this.hide(); },
-    show() { this.canvas.hidden = false; document.getElementById('canvas-tools').hidden = false; this.resize(); },
-    hide() { this.canvas.hidden = true; document.getElementById('canvas-tools').hidden = true; },
+    show() {
+        this.canvas.hidden = false;
+        const tools = document.getElementById('canvas-tools');
+        if (tools) tools.hidden = false;
+        document.getElementById('draw-btn').classList.add('active');
+        this.resize();
+    },
+    hide() {
+        this.canvas.hidden = true;
+        const tools = document.getElementById('canvas-tools');
+        if (tools) tools.hidden = true;
+        document.getElementById('draw-btn').classList.remove('active');
+    },
     start(e) {
         this.isDrawing = true;
         this.ctx.beginPath();
@@ -953,7 +963,7 @@ class App {
         if (window.innerWidth > 768) {
             const preview = document.getElementById('cv-preview');
             const paperContainer = document.querySelector('.cv-paper-container');
-            if (preview) preview.style.transform = '';
+            if (preview) { preview.style.transform = ''; preview.style.transformOrigin = ''; }
             if (paperContainer) paperContainer.style.height = '';
             return;
         }
@@ -962,11 +972,14 @@ class App {
         const container = document.querySelector('.cv-paper-container');
         if (!preview || !container) return;
 
-        const containerWidth = container.clientWidth - 40; // padding
+        const containerWidth = container.offsetWidth;
         const paperWidthPixels = 210 * 3.7795275591; // 210mm to pixels
-        const scale = containerWidth / paperWidthPixels;
+        const scale = (containerWidth * 0.95) / paperWidthPixels;
 
+        preview.style.transformOrigin = 'top center';
         preview.style.transform = `scale(${scale})`;
+        preview.style.marginLeft = 'calc(50% - 105mm)';
+        preview.style.marginRight = 'calc(50% - 105mm)';
 
         // Adjust container height to fit the scaled pages
         const papers = preview.querySelectorAll('.cv-paper');

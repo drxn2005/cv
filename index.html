@@ -233,6 +233,19 @@
                 <div class="toolbar-group">
                     <button id="draw-btn" class="btn btn-secondary" title="الرسم على الـ CV"><i
                             data-lucide="pen-tool"></i> رسم</button>
+
+                    <!-- Integrated Drawing Tools -->
+                    <div id="canvas-tools" class="canvas-tools-integrated" hidden>
+                        <div class="tool-item">
+                            <input type="color" id="draw-color" value="#ff0000" title="لون القلم">
+                        </div>
+                        <div class="tool-item">
+                            <input type="range" id="draw-size" min="1" max="10" value="3" title="حجم القلم">
+                        </div>
+                        <button id="undo-draw" class="btn-icon" title="تراجع"><i data-lucide="undo"></i></button>
+                        <button id="clear-draw" class="btn-icon btn-danger-text" title="مسح الكل"><i
+                                data-lucide="trash-2"></i></button>
+                    </div>
                 </div>
                 <div class="toolbar-group actions">
                     <button id="export-pdf" class="btn btn-primary"><i data-lucide="file-text"></i> PDF</button>
@@ -248,37 +261,21 @@
                 </div>
                 <!-- Drawing Canvas Overlay -->
                 <canvas id="drawing-canvas" class="drawing-canvas" hidden></canvas>
-
-                <div id="canvas-tools" class="canvas-tools" hidden>
-                    <div class="tool-item">
-                        <label>لون القلم:</label>
-                        <input type="color" id="draw-color" value="#ff0000" title="اختر لون القلم للرسم أو التوقيع">
-                    </div>
-                    <div class="tool-item">
-                        <label>الحجم:</label>
-                        <input type="range" id="draw-size" min="1" max="10" value="3">
-                    </div>
-                    <div class="tool-actions">
-                        <button id="undo-draw" title="تراجع"><i data-lucide="undo"></i> تراجع</button>
-                        <button id="clear-draw" title="مسح الكل" class="btn-danger"><i data-lucide="trash-2"></i>
-                            مسح</button>
-                        <button id="close-draw" title="إغلاق"><i data-lucide="x"></i></button>
-                    </div>
-                </div>
             </div>
 
-            <!-- Mobile Toggle Buttons -->
-            <div class="mobile-nav" id="mobile-nav">
-                <button id="view-edit-btn" class="mobile-nav-btn active">
-                    <i data-lucide="edit-3"></i>
-                    <span>تعديل</span>
-                </button>
-                <button id="view-preview-btn" class="mobile-nav-btn">
-                    <i data-lucide="eye"></i>
-                    <span>معاينة</span>
-                </button>
-            </div>
         </main>
+    </div>
+
+    <!-- Mobile Toggle Buttons -->
+    <div class="mobile-nav" id="mobile-nav">
+        <button id="view-edit-btn" class="mobile-nav-btn active">
+            <i data-lucide="edit-3"></i>
+            <span>تعديل</span>
+        </button>
+        <button id="view-preview-btn" class="mobile-nav-btn">
+            <i data-lucide="eye"></i>
+            <span>معاينة</span>
+        </button>
     </div>
 
     <!-- Scripts -->

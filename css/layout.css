@@ -242,7 +242,7 @@ body {
 
 @media (max-width: 768px) {
     .mobile-nav {
-        display: flex;
+        display: flex !important;
     }
 
     .app-container {
@@ -254,9 +254,9 @@ body {
 
     .editor-side,
     .preview-side {
-        width: 100%;
-        height: 100%;
-        position: absolute;
+        width: 100% !important;
+        height: 100% !important;
+        position: absolute !important;
         top: 0;
         left: 0;
         transition: transform 0.3s ease, visibility 0.3s;
@@ -265,24 +265,24 @@ body {
 
     /* Initial state or Editor visible */
     .app-container.show-editor .editor-side {
-        transform: translateX(0);
-        visibility: visible;
+        transform: translateX(0) !important;
+        visibility: visible !important;
     }
 
     .app-container.show-editor .preview-side {
-        transform: translateX(-100%);
-        visibility: hidden;
+        transform: translateX(-100%) !important;
+        visibility: hidden !important;
     }
 
     /* Preview visible */
     .app-container.show-preview .editor-side {
-        transform: translateX(100%);
-        visibility: hidden;
+        transform: translateX(100%) !important;
+        visibility: hidden !important;
     }
 
     .app-container.show-preview .preview-side {
-        transform: translateX(0);
-        visibility: visible;
+        transform: translateX(0) !important;
+        visibility: visible !important;
         display: flex !important;
     }
 
@@ -293,22 +293,52 @@ body {
         padding: 10px;
     }
 
-    .toolbar-group {
-        width: 100%;
-        justify-content: space-between;
-    }
-
     /* Essential Scaling for Paper on Mobile */
-    #cv-preview {
-        width: 210mm;
-        transform-origin: top center;
-        transform: scale(0.4);
+    .cv-paper-container {
+        padding: 20px 0;
+        width: 100%;
+        min-height: 100%;
+        display: block !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        background-color: #e3e4e6;
+        position: relative;
     }
 
-    .cv-paper-container {
-        padding: 10px;
-        min-height: 100%;
-        justify-content: flex-start;
-        overflow-x: hidden;
+    #cv-preview {
+        width: 210mm !important;
+        transform-origin: top center !important;
+        transform: scale(0.4);
+        margin-right: calc(50% - 105mm) !important;
+        margin-left: calc(50% - 105mm) !important;
+    }
+
+    .toolbar-group {
+        flex: 1;
+        justify-content: center;
+        min-width: 40%;
+        padding: 4px;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .toolbar-group:last-child {
+        border-bottom: none;
+    }
+
+    .toolbar-group.actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        padding-top: 5px;
+    }
+
+    .toolbar-group.actions .btn {
+        padding: 6px;
+        font-size: 0.75rem;
+    }
+
+    #reset-form {
+        grid-column: span 2;
     }
 }
