@@ -572,9 +572,17 @@ const exporter = {
     async run(type) {
         const pages = document.querySelectorAll('#cv-preview .cv-paper');
         const draw = document.getElementById('drawing-canvas');
-
-        // Temporarily hide UI elements that shouldn't be in print if any...
-        // but here all .cv-paper elements are clean.
+        const preview = document.getElementById('cv-preview');
+        const isMobile = window.innerWidth <= 768;
+        
+        // Temporarily disable scaling on mobile to prevent html2canvas distortion
+        let oldTransform = '';
+        if (isMobile && preview) {
+            oldTransform = preview.style.transform;
+            preview.style.transform = 'none';
+            // Force a slight delay to allow layout recalculation
+            await new Promise(r => setTimeout(r, 100));
+        }
 
         if (type === 'pdf') {
             const { jsPDF } = window.jspdf;
@@ -624,6 +632,11 @@ const exporter = {
                 // Small delay to ensure browser doesn't block multiple downloads
                 await new Promise(r => setTimeout(r, 500));
             }
+        }
+
+        // Restore scaling
+        if (isMobile && preview) {
+            preview.style.transform = oldTransform;
         }
     }
 };
@@ -754,6 +767,16 @@ const paginator = {
                                     <div><i data-lucide="map-pin"></i> ${data.location || ''}</div>
                                 </div>
                             </section>
+                            ${(data.skills || []).length > 0 ? `
+                            <section>
+                                <h3 class="cv-section-title">المهارات</h3>
+                                <div>${data.skills.map(s => templates.renderProgressBar(s.name, s.level)).join('')}</div>
+                            </section>` : ''}
+                            ${(data.languages || []).length > 0 ? `
+                            <section>
+                                <h3 class="cv-section-title">اللغات</h3>
+                                <div>${data.languages.map(l => templates.renderProgressBar(l.name, l.level)).join('')}</div>
+                            </section>` : ''}
                         ` : `
                             <div style="text-align: center; margin-top: 40px;">
                                 <h3 style="color: var(--primary); margin-bottom: 5px;">${name}</h3>
@@ -782,7 +805,30 @@ const paginator = {
                             <span>${data.email || ''}</span> ${data.phone ? `| <span>${data.phone}</span>` : ''} ${data.location ? `| <span>${data.location}</span>` : ''}
                         </div>
                     </header>` : miniHeader}
-                    <main>${content}</main>
+                    <div style="display:grid; grid-template-columns: 2fr 1fr; gap:30px;">
+                        <main>${content}</main>
+                        ${isFirst ? `
+                        <aside>
+                            <section>
+                                <h3 class="cv-section-title">معلومات</h3>
+                                <div style="font-size:0.9rem; line-height:1.8;">
+                                    ${data.age ? `<div><strong>العمر:</strong> ${data.age}</div>` : ''}
+                                    ${data.socialStatus ? `<div><strong>الحالة:</strong> ${helpers.getSocialStatus(data.socialStatus)}</div>` : ''}
+                                    ${data.militaryStatus ? `<div><strong>التجنيد:</strong> ${helpers.getMilitaryStatus(data.militaryStatus)}</div>` : ''}
+                                </div>
+                            </section>
+                            ${(data.skills || []).length > 0 ? `
+                            <section style="margin-top:25px">
+                                <h3 class="cv-section-title">المهارات</h3>
+                                ${data.skills.map(s => templates.renderProgressBar(s.name, s.level)).join('')}
+                            </section>` : ''}
+                            ${(data.languages || []).length > 0 ? `
+                            <section style="margin-top:25px">
+                                <h3 class="cv-section-title">اللغات</h3>
+                                ${data.languages.map(l => templates.renderProgressBar(l.name, l.level)).join('')}
+                            </section>` : ''}
+                        </aside>` : ''}
+                    </div>
                     ${pageFooter}
                 </div>
             `;
@@ -794,7 +840,31 @@ const paginator = {
                         <div><h1>${name}</h1><h3>${job}</h3></div>
                         <div class="photo-box">${data.photo ? `<img src="${data.photo}">` : ''}</div>
                     </header>` : miniHeader}
-                    <main>${content}</main>
+                    <div style="display:grid;grid-template-columns:1fr 2fr;gap:40px">
+                        <aside>
+                            ${isFirst ? `
+                            <section>
+                                <h3 class="cv-section-title">معلومات</h3>
+                                <div style="display:flex;flex-direction:column;gap:5px;font-size:0.9rem">
+                                    <div><i data-lucide="mail"></i> ${data.email || ''}</div>
+                                    <div><i data-lucide="phone"></i> ${data.phone || ''}</div>
+                                    ${data.age ? `<div>العمر: ${data.age}</div>` : ''}
+                                </div>
+                            </section>
+                            ${(data.skills || []).length > 0 ? `
+                            <section style="margin-top:30px">
+                                <h3 class="cv-section-title">المهارات</h3>
+                                ${data.skills.map(s => templates.renderProgressBar(s.name, s.level)).join('')}
+                            </section>` : ''}
+                            ${(data.languages || []).length > 0 ? `
+                            <section style="margin-top:30px">
+                                <h3 class="cv-section-title">اللغات</h3>
+                                ${data.languages.map(l => templates.renderProgressBar(l.name, l.level)).join('')}
+                            </section>` : ''}
+                            ` : ''}
+                        </aside>
+                        <main>${content}</main>
+                    </div>
                     ${pageFooter}
                 </div>
             `;
